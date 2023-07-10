@@ -17,7 +17,7 @@ public class RigidbodyMove : MonoBehaviour
     void Update()
     {
         float h = Input.GetAxisRaw("Horizontal");
-        if ((isTouchRight && h == 1) || (isTouchRight && h == -1))
+        if ((isTouchRight && h == 1) || (isTouchLeft && h == -1))
             h = 0;
         float v = Input.GetAxisRaw("Vertical");
         if ((isTouchTop && v == 1) || (isTouchBottom && v == -1))
