@@ -7,6 +7,10 @@ TagManager:
   - Border
   - Leejun
   - GameObject
+  - Border Bullet
+  - BorderBullet
+  - Enemy
+  - playerbullet
   layers:
   - Default
   - TransparentFX
