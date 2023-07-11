@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Monster_Bullet : MonoBehaviour
 {
-    public int dmg;
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "BorderBullet")
+        if (other.tag == "Player"|| other.tag == "Border Bullet")
         {
             Destroy(this.gameObject);
         }
     }
-
-
 }

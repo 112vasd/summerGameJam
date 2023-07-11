@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class RigidbodyMove : MonoBehaviour
 {
-
+    BoxCollider2D box;
+    public static bool Die;
     public bool isTouchTop;
     public bool isTouchBottom;
     public bool isTouchRight;
     public bool isTouchLeft;
 
+    float Respawntime;
+    public int life;
+    public int score;
     public float speed;
     public float power;
     public float maxShotDelay;
@@ -18,13 +22,29 @@ public class RigidbodyMove : MonoBehaviour
     public GameObject bulletObA;
     public GameObject bulletObB;
 
+    public GameManage manager;
     void Start()
     {
-
+        Die = false;
+        box = GetComponent<BoxCollider2D>();
+        Respawntime = 0.0f;
     }
 
     void Update()
     {
+        if (Die)
+        {
+            Respawntime += Time.deltaTime;
+            if (Respawntime < 1.5f)
+            {
+                box.enabled = false;
+            }
+            else
+            {
+                Die = false;
+                box.enabled = true;
+            }
+        }
         Move();
         Fire();
         Reload();
@@ -45,7 +65,7 @@ public class RigidbodyMove : MonoBehaviour
     }
     void Fire()
     {
-        if (!Input.GetButton("Fire1"))
+        if (!Input.GetKey(KeyCode.Space))
             return;
         if (curShotDelay < maxShotDelay)
             return;
@@ -113,6 +133,20 @@ public class RigidbodyMove : MonoBehaviour
                     isTouchLeft = true;
                     break;
             }
+        }
+        else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyBullet")
+        {
+            life--;
+            manager.UpdateLifeIcon(life);
+
+            if (life == 0)
+            {
+                manager.GameOver();
+            }
+
+            manager.RespawnPlayer();
+            gameObject.SetActive(false);
+            Destroy(collision.gameObject);
         }
     }
     void OnTriggerExit2D(Collider2D collision)
